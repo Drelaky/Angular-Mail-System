@@ -1,0 +1,13 @@
+<div class="container">
+  <nav>
+    @for (menu of navMenu; track $index) {
+    <p
+      [routerLink]="menu.routerLink"
+      [routerLinkActive]="menu.isActive ? 'active' : ''"
+      (click)="changeRoute(menu)"
+    >
+      {{ menu.title }}
+    </p>
+    }
+  </nav>
+</div>

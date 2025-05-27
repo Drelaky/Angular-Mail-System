@@ -1,0 +1,43 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.container-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1a1c1d;
+  height: inherit;
+  width: inherit;
+
+  .container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    color: white;
+
+    .card {
+      padding: 30px;
+      border-radius: 10px;
+      background-color: brown;
+      height: 300px;
+      width: 400px;
+      align-content: center;
+
+      &:hover {
+        background-color: darkred;
+        cursor: pointer;
+      }
+
+      h2 {
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
+      }
+    }
+  }
+}

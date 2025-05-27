@@ -1,0 +1,10 @@
+<div class="container-wrapper">
+  <div class="container">
+    @for (card of cards; track $index) {
+    <div class="card" [routerLink]="card.routerLink">
+      <h2>{{ card.title }}</h2>
+      <p>{{ card.description }}</p>
+    </div>
+    }
+  </div>
+</div>
