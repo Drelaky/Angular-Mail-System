@@ -1,0 +1,33 @@
+<div class="container">
+  <h1>Contact Us</h1>
+  <form [formGroup]="contactForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Name" formControlName="name" />
+      @if(this.contactForm.get('name')?.hasError('required')) {
+      <mat-error>Name is required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Email" formControlName="email" />
+      @if(this.contactForm.get('email')?.hasError('required')) {
+      <mat-error>Email is required</mat-error>
+      } @if(this.contactForm.get('email')?.hasError('email') ||
+      this.contactForm.get('email')?.hasError('pattern')) {
+      <mat-error>Invalid email format</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Message</mat-label>
+      <textarea matInput placeholder="Message" formControlName="message"></textarea>
+      @if(this.contactForm.get('message')?.hasError('required')) {
+      <mat-error>Message is required</mat-error>
+      }
+    </mat-form-field>
+
+    <button mat-raised-button (click)="onSubmit()" [disabled]="contactForm.invalid">Submit</button>
+  </form>
+</div>
