@@ -1,9 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { MailBadge } from './mailBadge.entity';
 
 @Entity({ name: 'mail' })
 export class Mail {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: 255 })
   name: string;
@@ -15,6 +16,9 @@ export class Mail {
   message: string;
 
   @Column({ type: 'boolean', default: false })
+  isStared: boolean;
+
+  @Column({ type: 'boolean', default: false })
   isRead: boolean;
 
   @Column({ type: 'varchar', default: false, nullable: true })
@@ -22,4 +26,10 @@ export class Mail {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  @OneToMany(() => MailBadge, (badge: MailBadge) => badge.mail, {
+    eager: true,
+    cascade: true,
+  })
+  badge?: MailBadge[];
 }

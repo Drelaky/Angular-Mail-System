@@ -4,9 +4,10 @@ import { MailController } from './mail.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Mail } from './entities/mail.entity';
 import { HttpModule } from '@nestjs/axios';
+import { MailBadge } from './entities/mailBadge.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Mail]), HttpModule],
+  imports: [TypeOrmModule.forFeature([Mail, MailBadge]), HttpModule],
   controllers: [MailController],
   providers: [MailService],
 })

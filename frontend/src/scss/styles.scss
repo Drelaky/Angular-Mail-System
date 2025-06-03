@@ -1,6 +1,42 @@
-
 // Base
 @use 'shared' as *;
 @use 'base';
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.mat-mdc-checkbox .mat-internal-form-field {
+  color: unset !important;
+}
+
+mat-checkbox.label-checkbox .mdc-checkbox__background {
+  border-color: currentColor !important;
+}
+
+mdc-checkbox.label-checkbox:hover,
+mdc-checkbox.label-checkbox:focus {
+  .mdc-checkbox__background {
+    border-color: currentColor !important;
+  }
+}
+
+mat-checkbox.label-checkbox
+  .mdc-checkbox__native-control:enabled:checked
+  ~ .mdc-checkbox__background,
+.mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
+  background-color: currentColor !important;
+}
+
+mat-checkbox.label-checkbox {
+  border-color: currentColor !important;
+  --mat-sys-primary: currentColor !important;
+}
+.mdc-radio__outer-circle,
+.mdc-radio__inner-circle {
+  border-radius: unset !important;
+}

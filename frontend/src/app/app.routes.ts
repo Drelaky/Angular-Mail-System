@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { MailReadableComponent } from './components/email/components/mail-readable/mail-readable.component';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,10 @@ export const routes: Routes = [
         path: 'email',
         loadComponent: () =>
           import('./components/email/email.component').then((m) => m.EmailComponent),
+      },
+      {
+        path: 'email/messages/:id',
+        component: MailReadableComponent,
       },
     ],
   },

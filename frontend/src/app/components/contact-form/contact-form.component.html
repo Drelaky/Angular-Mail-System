@@ -1,10 +1,11 @@
 <div class="container">
   <h1>Contact Us</h1>
-  <form [formGroup]="contactForm">
+  <form [formGroup]="contactForm" #formDirective="ngForm">
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input matInput placeholder="Name" formControlName="name" />
-      @if(this.contactForm.get('name')?.hasError('required')) {
+      @if(this.contactForm.get('name')?.hasError('required') &&
+      this.contactForm.get('name')?.touched) {
       <mat-error>Name is required</mat-error>
       }
     </mat-form-field>
@@ -12,10 +13,12 @@
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput placeholder="Email" formControlName="email" />
-      @if(this.contactForm.get('email')?.hasError('required')) {
+      @if(this.contactForm.get('email')?.hasError('required') &&
+      this.contactForm.get('name')?.touched && this.contactForm.get('name')?.touched) {
       <mat-error>Email is required</mat-error>
-      } @if(this.contactForm.get('email')?.hasError('email') ||
-      this.contactForm.get('email')?.hasError('pattern')) {
+      } @if(this.contactForm.get('email')?.hasError('email') &&
+      this.contactForm.get('name')?.touched || this.contactForm.get('email')?.hasError('pattern') &&
+      this.contactForm.get('name')?.touched) {
       <mat-error>Invalid email format</mat-error>
       }
     </mat-form-field>
@@ -23,7 +26,8 @@
     <mat-form-field appearance="outline">
       <mat-label>Message</mat-label>
       <textarea matInput placeholder="Message" formControlName="message"></textarea>
-      @if(this.contactForm.get('message')?.hasError('required')) {
+      @if(this.contactForm.get('message')?.hasError('required') &&
+      this.contactForm.get('name')?.touched) {
       <mat-error>Message is required</mat-error>
       }
     </mat-form-field>

@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="action-container">
+    @for (sidebar of actionsSignal(); track $index) {
+    <div class="title">{{ sidebar.title }}</div>
+    @for (content of sidebar.content; track $index) { @if(typeof content === 'object') {
+    <div class="item-action" [ngClass]="{ active: content.active }" (click)="selectAction(content)">
+      <div>
+        <fa-icon [icon]="content.icon"></fa-icon>
+        <span class="title">{{ content.title }}</span>
+      </div>
+      <div class="counter">{{ content.count }}</div>
+    </div>
+    } }}
+
+    <app-label></app-label>
+  </div>
+
+  <div class="email-detail">
+    <div class="email-header">
+      <div class="title">
+        <div class="back-icon" (click)="backToInbox()">
+          <fa-icon [icon]="faAngleLeft"></fa-icon>
+        </div>
+        @if(mailData.name) {
+        <div class="name">{{ mailData.name }}</div>
+        } @if(mailData.badge.length > 0 && mailData.badge) { @for (badge of mailData.badge; track
+        $index) {
+        <div class="badge-container">
+          <div class="badge" [ngStyle]="{ 'background-color': badge.color }">
+            {{ badge.name }}
+          </div>
+        </div>
+        } }
+      </div>
+      <div class="icon-container">
+        <fa-icon
+          class="starred-icon"
+          (click)="starredMail(mailData)"
+          [icon]="mailData.isStared ? faStar : faStarSolid"
+        ></fa-icon>
+        <fa-icon class="trash-icon" (click)="opendeletePopup()" [icon]="faTrash"></fa-icon>
+      </div>
+    </div>
+    <div class="email-message" [innerHTML]="mailData.HTML | safe : 'html'"></div>
+  </div>
+</div>
+
+@if(openDeletePopup) {
+<ng-container *ngTemplateOutlet="deletePopup"></ng-container>
+}
+
+<ng-template #deletePopup>
+  <div class="delete-popup-container" (click)="closeDeletePopup()">
+    <div class="text-container">
+      <div>Are u sure?</div>
+      <div class="button-container" (click)="$event.stopPropagation()">
+        <button mat-raised-button (click)="deleteMail(mailData.id)">yes</button>
+        <button mat-raised-button (click)="closeDeletePopup()">no</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -23,11 +23,41 @@ let MailService = class MailService {
         this.mailDB = mailDB;
     }
     saveEmail(createMailDto) {
-        const mail = this.mailDB.create(createMailDto);
+        const mail = this.mailDB.create({
+            ...createMailDto,
+            id: createMailDto.id ? createMailDto.id : undefined,
+        });
         return this.mailDB.save(mail);
     }
     getEmails() {
         return this.mailDB.find();
+    }
+    async editMail(updateMailDto) {
+        const { id, ...updateData } = updateMailDto;
+        const foundMail = await this.mailDB.findOne({
+            where: { id },
+        });
+        if (!foundMail) {
+            return `Mail with id ${id} not found`;
+        }
+        const updatedMail = this.mailDB.merge(foundMail, updateData);
+        return this.mailDB.save(updatedMail);
+    }
+    async getOneMail(id) {
+        let mail = await this.mailDB.findOne({
+            where: { id: id },
+        });
+        return mail;
+    }
+    async deleteMail(id) {
+        const mail = await this.mailDB.findOne({
+            where: { id: id },
+        });
+        if (!mail) {
+            return `Mail with id ${id} not found`;
+        }
+        await this.mailDB.remove(mail);
+        return `Mail with id ${id} deleted successfully`;
     }
 };
 exports.MailService = MailService;

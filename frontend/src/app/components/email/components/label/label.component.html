@@ -1,0 +1,13 @@
+<div class="container">
+  @for (item of dummyData; track $index) {
+  <mat-checkbox class="label-checkbox" [style.color]="item.color">{{ item.name }}</mat-checkbox>
+  }
+</div>
+<div class="create-new-label-container">
+  <fa-icon [icon]="faPlus"></fa-icon>
+  <span (click)="openDialog()">Create new label</span>
+</div>
+
+<dialog #labelDialog>
+  <div class="dialog-container"></div>
+</dialog>

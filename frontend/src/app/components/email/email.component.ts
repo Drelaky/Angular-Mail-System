@@ -1,11 +1,233 @@
-import { Component } from '@angular/core';
+import { DatePipe, NgClass, NgStyle } from '@angular/common';
+import { Component, HostListener, OnInit, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faEnvelope,
+  faPaperPlane,
+  faPen,
+  faStar,
+  faTrash,
+  faTriangleExclamation,
+  faWarning,
+} from '@fortawesome/free-solid-svg-icons';
+import * as freeSolidIcons from '@fortawesome/free-solid-svg-icons';
+import * as freeReguarIcons from '@fortawesome/free-regular-svg-icons';
+import { InboxMailType, InboxSidebarType, InboxType } from '../../types/inbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { LabelComponent } from './components/label/label.component';
+import { SearchComponent } from './components/search/search.component';
+import { WithDestroyObservable } from '../../mixins/with-destroy-observable';
+import { ApiService } from '../../services/api-service.service';
+import { takeUntil } from 'rxjs';
+import { ApiResponse } from '../../types/api.types';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatRadioModule } from '@angular/material/radio';
 
 @Component({
   selector: 'app-email',
-  imports: [],
+  imports: [
+    FontAwesomeModule,
+    NgClass,
+    FormsModule,
+    NgStyle,
+    DatePipe,
+    MatTableModule,
+    MatCheckboxModule,
+    LabelComponent,
+    SearchComponent,
+    MatRadioModule,
+  ],
   templateUrl: './email.component.html',
-  styleUrl: './email.component.scss'
+  styleUrl: './email.component.scss',
 })
-export class EmailComponent {
+export class EmailComponent extends WithDestroyObservable(Object) implements OnInit {
+  //TODO TYPE FIXING
+  actions: InboxSidebarType[] = [
+    {
+      title: 'Inbox',
+      content: [
+        {
+          icon: faEnvelope,
+          title: 'Inbox',
+          count: 0,
+          active: true,
+        },
+        {
+          icon: faStar,
+          title: 'Starred',
+          count: 0,
+          active: false,
+        },
+        {
+          icon: faWarning,
+          title: 'Spam',
+          count: 0,
+          active: false,
+        },
+        {
+          icon: faTriangleExclamation,
+          title: 'Important',
+          count: 0,
+          active: false,
+        },
+        {
+          icon: faPaperPlane,
+          title: 'Sent',
+          count: 0,
+          active: false,
+        },
+        {
+          icon: faPen,
+          title: 'Drafts',
+          count: 0,
+          active: false,
+        },
+        {
+          icon: faTrash,
+          title: 'Trash',
+          count: 0,
+          active: false,
+        },
+      ],
+    },
+    {
+      title: 'Labels',
+      content: undefined,
+    },
+  ];
 
+  actionsSignal = signal<InboxSidebarType[]>(this.actions);
+  isMobile = false;
+
+  faStar = faStar;
+  faTrash = freeSolidIcons.faTrash;
+  faSearch = freeSolidIcons.faSearch;
+  faStarSolid = freeReguarIcons.faStar;
+
+  faAngleLeft = freeSolidIcons.faAngleLeft;
+  faAngleRight = freeSolidIcons.faAngleRight;
+  emailsCount = 0;
+
+  displayedColumns: string[] = ['select', 'starred', 'name', 'badge', 'content', 'date'];
+  dataSource!: InboxMailType[];
+
+  selectedMail: InboxMailType | null = null;
+
+  constructor(private readonly router: Router, private readonly apiService: ApiService) {
+    super();
+  }
+
+  ngOnInit(): void {
+    this.getMails();
+    this.getActions();
+  }
+
+  starredMail(mail: InboxMailType): void {
+    mail.isStared = !mail.isStared;
+
+    this.apiService
+      .mailEdit(mail)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: ApiResponse<string, InboxMailType>) => {
+          this.getActions();
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Error updating mail:', error);
+        },
+      });
+  }
+
+  selectAction(action: InboxType): void {
+    this.actionsSignal.update((actions) =>
+      actions.map((section) => ({
+        ...section,
+        content: Array.isArray(section.content)
+          ? section.content.map((item) => ({
+              ...item,
+              active: item.title === action.title,
+            }))
+          : section.content,
+      }))
+    );
+  }
+
+  selectMail(mailId: string): void {
+    this.router.navigate(['/', 'core', 'email', 'messages', mailId]);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.isMobile = window.innerWidth <= 768;
+  }
+
+  getMails(): void {
+    this.apiService
+      .getMails()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: ApiResponse<string, { count: number; emails: InboxMailType[] }>) => {
+          this.dataSource = response.result.emails;
+          this.emailsCount = response.result.count;
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Error fetching mails:', error);
+        },
+      });
+  }
+
+  getActions(): void {
+    this.apiService
+      .getActionData()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: ApiResponse<string, InboxSidebarType[]>) => {
+          if (this.actions[0].content && response.result[0]?.content) {
+            response.result[0].content = response.result[0].content.map((item, idx) => ({
+              ...item,
+              icon: (this.actions[0].content as any[])[idx]?.icon ?? item.icon,
+            }));
+          }
+          this.actionsSignal.set(response.result);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Error fetching actions:', error);
+        },
+      });
+  }
+
+  searchEmails(searchTerm: string): void {
+    if (!searchTerm) {
+      this.getMails();
+      return;
+    }
+
+    this.apiService
+      .searchMails(searchTerm)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: ApiResponse<string, { count: number; emails: InboxMailType[] }>) => {
+          this.dataSource = response.result.emails;
+          this.emailsCount = response.result.count;
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Error searching emails:', error);
+        },
+      });
+  }
+
+  selectMailCheckbox(mail: InboxMailType): void {
+    if (this.selectedMail && this.selectedMail.id === mail.id) {
+      this.selectedMail = null; // Deselect if the same mail is clicked again
+      console.log('Deselected Mail');
+      return;
+    }
+
+    this.selectedMail = mail;
+
+    console.log('Selected Mail:', this.selectedMail);
+  }
 }
