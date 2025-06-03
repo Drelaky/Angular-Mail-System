@@ -1,0 +1,23 @@
+.search-container {
+  border-radius: 25px;
+  background: #313d4f !important;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #646464;
+
+  fa-icon {
+    margin-inline-start: 10px;
+  }
+
+  input {
+    background: none;
+    border: none;
+    color: white;
+    width: 100%;
+    padding: 5px 5px 5px 10px;
+    font-size: 16px;
+    outline: none;
+  }
+}

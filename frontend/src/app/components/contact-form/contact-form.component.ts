@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { WithDestroyObservable } from '../../mixins/with-destroy-observable';
+import { ApiService } from '../../services/api-service.service';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-contact-form',
@@ -18,8 +21,13 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './contact-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContactFormComponent implements OnInit {
+export class ContactFormComponent extends WithDestroyObservable(Object) implements OnInit {
   contactForm!: ReturnType<typeof this.generateForm>;
+  @ViewChild('formDirective') private formDirective!: NgForm;
+
+  constructor(private readonly apiService: ApiService) {
+    super();
+  }
 
   ngOnInit(): void {
     this.contactForm = this.generateForm();
@@ -37,6 +45,35 @@ export class ContactFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.contactForm);
+    if (this.contactForm.invalid) {
+      return;
+    }
+
+    this.apiService
+      .sendContactForm({
+        name: this.contactForm.value.name,
+        email: this.contactForm.value.email,
+        message: this.contactForm.value.message,
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.contactForm.reset(
+            {
+              name: null,
+              email: null,
+              message: null,
+            },
+            { emitEvent: false }
+          );
+          this.formDirective.resetForm();
+          this.contactForm.markAsUntouched();
+          this.contactForm.markAsPristine();
+          this.contactForm.updateValueAndValidity();
+        },
+        error: (error) => {
+          console.error('Error submitting form:', error);
+        },
+      });
   }
 }

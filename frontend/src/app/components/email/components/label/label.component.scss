@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.create-new-label-container {
+  padding: 10px 10px 20px 23px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  span {
+    padding-inline-start: 10px;
+  }
+}
+
+dialog {
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+}

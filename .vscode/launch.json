@@ -6,18 +6,11 @@
   "configurations": [
     {
       "type": "node",
-      "request": "launch",
-      "name": "Debug Nest Framework",
-      "args": ["${workspaceFolder}/src/main.ts"],
-      "runtimeArgs": [
-        "--nolazy",
-        "-r",
-        "ts-node/register",
-        "-r",
-        "tsconfig-paths/register"
-      ],
-      "sourceMaps": true,
-      "cwd": "${workspaceRoot}",
+      "request": "attach",
+      "name": "Attach NestJS WS",
+      "port": 9229,
+      "restart": true,
+      "stopOnEntry": false,
       "protocol": "inspector"
     }
   ]

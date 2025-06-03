@@ -1,3 +1,234 @@
 :host {
   flex-grow: 1;
+  background-color: #2d373f;
+  color: white;
+}
+
+.container {
+  display: flex;
+  gap: 30px;
+  margin: 20px;
+
+  &.is-mobile {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .action-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 286px;
+    background-color: #273142;
+    border-radius: 14px;
+
+    &.is-mobile {
+      width: 100%;
+      max-width: unset;
+    }
+
+    .title {
+      font-size: 20px;
+      margin: 20px;
+    }
+
+    .item-action {
+      min-width: 238px;
+      display: flex;
+      padding: 10px 15px;
+      margin: 10px;
+      justify-content: space-between;
+      border-radius: 10px;
+      color: #0089ff;
+
+      &.is-mobile {
+        min-width: unset;
+      }
+
+      .title {
+        font-size: 16px;
+        margin-inline-start: 10px;
+      }
+
+      &.active {
+        background-color: #0066ff2e;
+      }
+
+      &:hover {
+        background-color: #0066ff2e;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .table-container {
+    overflow-y: auto;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (min-width: 1400px) {
+      .table-container {
+        justify-content: unset;
+        display: block;
+      }
+    }
+
+    .badge {
+      padding: 5px 10px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .table-overflow-y {
+      overflow-y: auto;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      background: #273142;
+
+      .table {
+        grid-template-columns: auto 90px 150px 150px 1fr 90px;
+        text-align: center;
+        align-items: center;
+        background: #273142;
+        width: inherit;
+        flex-grow: 1;
+
+        .table-row {
+          display: grid;
+          grid-template-columns: inherit;
+          align-items: center;
+          transition: background-color 0.2s ease-in-out;
+          padding-inline: 0 20px;
+          width: inherit;
+
+          &:hover {
+            background-color: #f9f9f939;
+            cursor: pointer;
+          }
+        }
+
+        .starred-icon {
+          color: #f1c40f;
+          cursor: pointer;
+          &:hover {
+            transform: scale(1.2);
+            transition: transform 0.2s;
+          }
+        }
+
+        .badge-container {
+          display: inline-block;
+          padding: 5px 10px;
+          color: white;
+          font-weight: bold;
+          text-align: center;
+
+          .badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+
+        .content {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          @media screen and (max-width: 1400px) {
+            min-width: 200px;
+          }
+        }
+
+        .date {
+          text-align: end;
+        }
+      }
+    }
+
+    .table-header {
+      padding: 30px;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      background: #273142;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .button-container {
+        fa-icon {
+          padding: 15px;
+          background: #f95c5c;
+          border-radius: 10px;
+          color: white;
+          cursor: pointer;
+
+          &:active {
+            background: #ff7b7b;
+          }
+        }
+      }
+    }
+
+    .table-bottom {
+      display: flex;
+      padding: 30px 50px;
+      justify-content: space-between;
+      background: #273142;
+      border-bottom-right-radius: 15px;
+      border-bottom-left-radius: 15px;
+
+      @media screen and (max-width: 783px) and (min-width: 768px) {
+        .text {
+          font-size: 11px;
+        }
+      }
+
+      @media screen and (max-width: 430px) {
+        padding: 30px;
+
+        .text {
+          font-size: 11px;
+        }
+      }
+
+      .button-container {
+        fa-icon {
+          padding: 15px;
+          background: #323d4e;
+          color: white;
+          cursor: pointer;
+
+          @media screen and (max-width: 800px) {
+            padding: 13px;
+          }
+
+          &:active {
+            background: #717171;
+          }
+
+          &:first-child {
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+            border-top: 1px solid gray;
+            border-bottom: 1px solid gray;
+            border-right: 1px solid gray;
+            border-left: 1px solid gray;
+          }
+
+          &:last-child {
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+            border-top: 1px solid gray;
+            border-bottom: 1px solid gray;
+            border-right: 1px solid gray;
+          }
+        }
+      }
+    }
+  }
 }

@@ -7,11 +7,6 @@ import { HeaderNavType } from '../types/headerNav.types';
 export class HeaderService {
   navMenu: HeaderNavType[] = [
     {
-      title: 'Home',
-      routerLink: ['/'],
-      isActive: true,
-    },
-    {
       title: 'Contact Form',
       routerLink: ['/', 'core', 'contact-form'],
       isActive: false,

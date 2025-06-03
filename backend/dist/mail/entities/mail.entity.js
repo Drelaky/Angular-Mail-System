@@ -11,19 +11,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Mail = void 0;
 const typeorm_1 = require("typeorm");
+const mailBadge_entity_1 = require("./mailBadge.entity");
 let Mail = class Mail {
     id;
     name;
     email;
     message;
+    isStared;
     isRead;
     role;
     createdAt;
+    badge;
 };
 exports.Mail = Mail;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Mail.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 255 }),
@@ -40,6 +43,10 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ type: 'boolean', default: false }),
     __metadata("design:type", Boolean)
+], Mail.prototype, "isStared", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'boolean', default: false }),
+    __metadata("design:type", Boolean)
 ], Mail.prototype, "isRead", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', default: false, nullable: true }),
@@ -49,6 +56,13 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' }),
     __metadata("design:type", Date)
 ], Mail.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => mailBadge_entity_1.MailBadge, (badge) => badge.mail, {
+        eager: true,
+        cascade: true,
+    }),
+    __metadata("design:type", Array)
+], Mail.prototype, "badge", void 0);
 exports.Mail = Mail = __decorate([
     (0, typeorm_1.Entity)({ name: 'mail' })
 ], Mail);
