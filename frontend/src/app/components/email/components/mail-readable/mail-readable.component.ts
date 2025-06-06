@@ -1,5 +1,5 @@
 import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as freeReguarIcons from '@fortawesome/free-regular-svg-icons';
@@ -23,6 +23,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SafePipe } from '../../../../pipes/safe.pipe';
 import { UtilsService } from '../../../../services/utils.service';
 import { MatButtonModule } from '@angular/material/button';
+import { EmailService } from '../../../../services/email/email.service';
 
 @Component({
   selector: 'app-mail-readable',
@@ -93,7 +94,7 @@ export class MailReadableComponent extends WithDestroyObservable(Object) impleme
       content: undefined,
     },
   ];
-  actionsSignal = signal<InboxSidebarType[]>(this.actions);
+  actionsSignal!: WritableSignal<InboxSidebarType[]>;
   emailId!: string;
   faTrash = freeSolidIcons.faTrash;
   faStar = faStar;
@@ -117,7 +118,8 @@ export class MailReadableComponent extends WithDestroyObservable(Object) impleme
     private readonly router: Router,
     private readonly apiService: ApiService,
     private readonly route: ActivatedRoute,
-    private readonly utilService: UtilsService
+    private readonly utilService: UtilsService,
+    private emailService: EmailService
   ) {
     super();
 
@@ -127,38 +129,17 @@ export class MailReadableComponent extends WithDestroyObservable(Object) impleme
   }
 
   ngOnInit(): void {
+    this.actionsSignal = this.emailService.actionsSignal;
     this.getOneMail(this.emailId);
-    this.getActions();
+    this.emailService.getActions();
   }
 
   starredMail(mail: InboxMailType): void {
-    mail.isStared = !mail.isStared;
-
-    this.apiService
-      .mailEdit(mail)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response: ApiResponse<string, InboxMailType>) => {
-          this.getActions();
-        },
-        error: (error: HttpErrorResponse) => {
-          console.error('Error updating mail:', error);
-        },
-      });
+    this.emailService.starredMail(mail);
   }
 
   selectAction(action: InboxType): void {
-    this.actionsSignal.update((actions) =>
-      actions.map((section) => ({
-        ...section,
-        content: Array.isArray(section.content)
-          ? section.content.map((item) => ({
-              ...item,
-              active: item.title === action.title,
-            }))
-          : section.content,
-      }))
-    );
+    this.emailService.selectAction(action);
   }
 
   backToInbox(): void {
@@ -177,23 +158,7 @@ export class MailReadableComponent extends WithDestroyObservable(Object) impleme
     });
   }
   getActions(): void {
-    this.apiService
-      .getActionData()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response: ApiResponse<string, InboxSidebarType[]>) => {
-          if (this.actions[0].content && response.result[0]?.content) {
-            response.result[0].content = response.result[0].content.map((item, idx) => ({
-              ...item,
-              icon: (this.actions[0].content as any[])[idx]?.icon ?? item.icon,
-            }));
-          }
-          this.actionsSignal.set(response.result);
-        },
-        error: (error: HttpErrorResponse) => {
-          console.error('Error fetching actions:', error);
-        },
-      });
+    this.emailService.getActions();
   }
 
   opendeletePopup(): void {
