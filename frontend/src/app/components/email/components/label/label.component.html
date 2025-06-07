@@ -9,5 +9,30 @@
 </div>
 
 <dialog #labelDialog>
-  <div class="dialog-container"></div>
+  <div class="dialog-container" [formGroup]="generateLabelForm">
+    <h1>Label generating</h1>
+    <div class="content-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Label name</mat-label>
+        <input matInput placeholder="color" formControlName="name" />
+        @if(this.generateLabelForm.get('name')?.hasError('required') &&
+        this.generateLabelForm.get('name')?.touched && this.generateLabelForm.get('name')?.touched)
+        {
+        <mat-error>Name is required</mat-error>
+        }
+      </mat-form-field>
+
+      <input
+        [value]="selectiveColor"
+        formControlName="color"
+        [style.background]="selectiveColor"
+        [(colorPicker)]="selectiveColor"
+        (colorPickerChange)="changeColor($event)"
+      />
+
+      <button mat-raised-button (click)="onSubmit()" [disabled]="generateLabelForm.invalid">
+        Submit
+      </button>
+    </div>
+  </div>
 </dialog>

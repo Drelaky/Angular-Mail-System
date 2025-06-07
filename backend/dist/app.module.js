@@ -47,6 +47,7 @@ const mail_module_1 = require("./mail/mail.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const databaseConfig = __importStar(require("./config.json"));
 const core_1 = require("@nestjs/core");
+const label_module_1 = require("./label/label.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -78,6 +79,7 @@ exports.AppModule = AppModule = __decorate([
                 },
             ]),
             mail_module_1.MailModule,
+            label_module_1.LabelModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

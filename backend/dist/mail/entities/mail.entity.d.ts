@@ -1,4 +1,5 @@
 import { MailBadge } from './mailBadge.entity';
+import { Label } from '@app/label/entities/label.entity';
 export declare class Mail {
     id: string;
     name: string;
@@ -9,4 +10,5 @@ export declare class Mail {
     role: string;
     createdAt: Date;
     badge?: MailBadge[];
+    labels?: Label[];
 }

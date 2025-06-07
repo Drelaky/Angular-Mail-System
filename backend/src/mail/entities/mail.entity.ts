@@ -1,5 +1,12 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { MailBadge } from './mailBadge.entity';
+import { Label } from '@app/label/entities/label.entity';
 
 @Entity({ name: 'mail' })
 export class Mail {
@@ -32,4 +39,10 @@ export class Mail {
     cascade: true,
   })
   badge?: MailBadge[];
+
+  @ManyToMany(() => Label, (label) => label.mails, {
+    eager: true,
+    cascade: true,
+  })
+  labels?: Label[];
 }

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Mail = void 0;
 const typeorm_1 = require("typeorm");
 const mailBadge_entity_1 = require("./mailBadge.entity");
+const label_entity_1 = require("../../label/entities/label.entity");
 let Mail = class Mail {
     id;
     name;
@@ -22,6 +23,7 @@ let Mail = class Mail {
     role;
     createdAt;
     badge;
+    labels;
 };
 exports.Mail = Mail;
 __decorate([
@@ -63,6 +65,13 @@ __decorate([
     }),
     __metadata("design:type", Array)
 ], Mail.prototype, "badge", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)(() => label_entity_1.Label, (label) => label.mails, {
+        eager: true,
+        cascade: true,
+    }),
+    __metadata("design:type", Array)
+], Mail.prototype, "labels", void 0);
 exports.Mail = Mail = __decorate([
     (0, typeorm_1.Entity)({ name: 'mail' })
 ], Mail);
