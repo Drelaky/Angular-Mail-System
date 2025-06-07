@@ -5,6 +5,7 @@ import { MailModule } from './mail/mail.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as databaseConfig from './config.json';
 import { RouterModule } from '@nestjs/core';
+import { LabelModule } from './label/label.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { RouterModule } from '@nestjs/core';
       },
     ]),
     MailModule,
+    LabelModule,
   ],
   controllers: [AppController],
   providers: [AppService],

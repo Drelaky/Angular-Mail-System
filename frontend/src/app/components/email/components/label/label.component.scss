@@ -17,7 +17,25 @@
 }
 
 dialog {
+  border-radius: 10px;
+
   &::backdrop {
     background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .content-container {
+    margin-block-start: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    mat-form-field {
+      margin-block: 10px;
+    }
+
+    button {
+      margin-block-start: 20px;
+    }
   }
 }
