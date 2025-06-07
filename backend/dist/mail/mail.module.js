@@ -7,13 +7,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MailModule = void 0;
+const axios_1 = require("@nestjs/axios");
 const common_1 = require("@nestjs/common");
-const mail_service_1 = require("./mail.service");
-const mail_controller_1 = require("./mail.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const mail_entity_1 = require("./entities/mail.entity");
-const axios_1 = require("@nestjs/axios");
 const mailBadge_entity_1 = require("./entities/mailBadge.entity");
+const mail_controller_1 = require("./mail.controller");
+const mail_service_1 = require("./mail.service");
 let MailModule = class MailModule {
 };
 exports.MailModule = MailModule;

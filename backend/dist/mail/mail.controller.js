@@ -14,9 +14,9 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MailController = void 0;
 const common_1 = require("@nestjs/common");
-const mail_service_1 = require("./mail.service");
 const create_mail_dto_1 = require("./dto/create-mail.dto");
 const update_mail_dto_1 = require("./dto/update-mail.dto");
+const mail_service_1 = require("./mail.service");
 let MailController = class MailController {
     mailService;
     constructor(mailService) {

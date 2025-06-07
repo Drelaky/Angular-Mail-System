@@ -1,7 +1,7 @@
-import { MailService } from './mail.service';
+import { InboxSidebarType } from '@app/types/emailActions.types';
 import { CreateMailDto } from './dto/create-mail.dto';
 import { UpdateMailDto } from './dto/update-mail.dto';
-import { InboxSidebarType } from '@app/types/emailActions.types';
+import { MailService } from './mail.service';
 export declare class MailController {
     private readonly mailService;
     constructor(mailService: MailService);

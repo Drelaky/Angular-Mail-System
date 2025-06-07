@@ -1,9 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateLabelDto } from './dto/create-label.dto';
-import { UpdateLabelDto } from './dto/update-label.dto';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Label } from './entities/label.entity';
 import { Repository } from 'typeorm';
+import { CreateLabelDto } from './dto/create-label.dto';
+import { Label } from './entities/label.entity';
 
 @Injectable()
 export class LabelService {
