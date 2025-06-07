@@ -56,6 +56,7 @@ export class EmailComponent extends WithDestroyObservable(Object) implements OnI
   faAngleLeft = freeSolidIcons.faAngleLeft;
   faAngleRight = freeSolidIcons.faAngleRight;
   emailsCount = 0;
+  faEllipsisVertical = freeSolidIcons.faEllipsisVertical;
 
   displayedColumns: string[] = ['select', 'starred', 'name', 'badge', 'content', 'date'];
   dataSource!: InboxMailType[];

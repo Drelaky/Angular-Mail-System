@@ -166,7 +166,18 @@
       justify-content: space-between;
 
       .button-container {
-        fa-icon {
+        text-align: center;
+        align-items: center;
+
+        fa-icon.option-icon {
+          margin-inline-end: 20px;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        fa-icon.trash {
           padding: 15px;
           background: #f95c5c;
           border-radius: 10px;

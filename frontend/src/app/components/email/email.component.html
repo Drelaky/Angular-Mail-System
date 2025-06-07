@@ -25,7 +25,8 @@
       <app-search [label]="'Search Email'" (search)="searchEmails($event)"></app-search>
       @if (selectedMail) {
       <div class="button-container">
-        <fa-icon [icon]="faTrash"></fa-icon>
+        <fa-icon class="option-icon" [icon]="faEllipsisVertical" size="lg"></fa-icon>
+        <fa-icon class="trash" [icon]="faTrash"></fa-icon>
       </div>
       }
     </div>
