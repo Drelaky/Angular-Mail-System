@@ -13,6 +13,10 @@ import { MatInputModule } from '@angular/material/input';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ColorPickerDirective } from 'ngx-color-picker';
+import { ApiService } from '../../../../services/api-service.service';
+import { WithDestroyObservable } from '../../../../mixins/with-destroy-observable';
+import { takeUntil } from 'rxjs';
+import { Label } from '../../../../types/labels.types';
 
 @Component({
   selector: 'app-label',
@@ -30,47 +34,34 @@ import { ColorPickerDirective } from 'ngx-color-picker';
   templateUrl: './label.component.html',
   styleUrl: './label.component.scss',
 })
-export class LabelComponent implements OnInit {
+export class LabelComponent extends WithDestroyObservable(Object) implements OnInit {
   @ViewChild('labelDialog') labelDialog!: ElementRef<HTMLDialogElement>;
 
+  constructor(private readonly apiService: ApiService) {
+    super();
+  }
+
   faPlus = faPlus;
-  dummyData = [
-    {
-      id: 1,
-      name: 'Personal',
-      color: '#f44336',
-    },
-    {
-      id: 2,
-      name: 'Work',
-      color: '#2196f3',
-    },
-    {
-      id: 3,
-      name: 'Family',
-      color: '#4caf50',
-    },
-    {
-      id: 4,
-      name: 'Friends',
-      color: '#ff9800',
-    },
-    {
-      id: 5,
-      name: 'Other',
-      color: '#9c27b0',
-    },
+  presetColors: string[] = [
+    '#f44336',
+    '#2196f3',
+    '#4caf50',
+    '#ff9800',
+    '#9c27b0',
+    '#673ab7',
+    '#3f51b5',
+    '#009688',
+    '#795548',
   ];
+
+  labels: Label[] = [];
 
   generateLabelForm!: ReturnType<typeof this.generateForm>;
   selectiveColor: string = '#a63030';
 
   ngOnInit(): void {
+    this.getAllLabels();
     this.generateLabelForm = this.generateForm();
-
-    this.generateLabelForm.valueChanges.subscribe((x) => {
-      console.log(x);
-    });
   }
 
   generateForm(): FormGroup {
@@ -103,7 +94,32 @@ export class LabelComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.generateLabelForm.value);
-    //this.generateLabelForm.reset();
+    this.apiService
+      .createLabel(this.generateLabelForm.value)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.getAllLabels();
+          this.labelDialog.nativeElement.close();
+          this.generateLabelForm.reset();
+        },
+        error: (error) => {
+          console.error('Error creating label:', error);
+        },
+      });
+  }
+
+  getAllLabels() {
+    this.apiService
+      .getAllLabels()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.labels = response.result;
+        },
+        error: (error) => {
+          console.error('Error fetching labels:', error);
+        },
+      });
   }
 }

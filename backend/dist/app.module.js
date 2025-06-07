@@ -75,6 +75,10 @@ exports.AppModule = AppModule = __decorate([
                             path: 'mail',
                             module: mail_module_1.MailModule,
                         },
+                        {
+                            path: 'label',
+                            module: label_module_1.LabelModule,
+                        },
                     ],
                 },
             ]),

@@ -30,6 +30,10 @@ import { LabelModule } from './label/label.module';
             path: 'mail',
             module: MailModule,
           },
+          {
+            path: 'label',
+            module: LabelModule,
+          },
         ],
       },
     ]),

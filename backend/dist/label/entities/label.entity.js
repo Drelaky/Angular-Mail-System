@@ -20,7 +20,7 @@ let Label = class Label {
 };
 exports.Label = Label;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", String)
 ], Label.prototype, "id", void 0);
 __decorate([
