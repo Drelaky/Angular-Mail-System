@@ -14,8 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LabelController = void 0;
 const common_1 = require("@nestjs/common");
-const label_service_1 = require("./label.service");
 const create_label_dto_1 = require("./dto/create-label.dto");
+const label_service_1 = require("./label.service");
 let LabelController = class LabelController {
     labelService;
     constructor(labelService) {

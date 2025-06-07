@@ -7,12 +7,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LabelModule = void 0;
-const common_1 = require("@nestjs/common");
-const label_service_1 = require("./label.service");
-const label_controller_1 = require("./label.controller");
-const typeorm_1 = require("@nestjs/typeorm");
 const axios_1 = require("@nestjs/axios");
+const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
 const label_entity_1 = require("./entities/label.entity");
+const label_controller_1 = require("./label.controller");
+const label_service_1 = require("./label.service");
 let LabelModule = class LabelModule {
 };
 exports.LabelModule = LabelModule;

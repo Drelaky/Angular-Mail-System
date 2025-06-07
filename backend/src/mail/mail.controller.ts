@@ -1,16 +1,16 @@
+import { InboxSidebarType } from '@app/types/emailActions.types';
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { MailService } from './mail.service';
 import { CreateMailDto } from './dto/create-mail.dto';
 import { UpdateMailDto } from './dto/update-mail.dto';
-import { InboxSidebarType } from '@app/types/emailActions.types';
+import { MailService } from './mail.service';
 
 @Controller()
 export class MailController {

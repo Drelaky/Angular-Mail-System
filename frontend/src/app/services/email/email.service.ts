@@ -8,12 +8,9 @@ import {
   faTriangleExclamation,
   faWarning,
 } from '@fortawesome/free-solid-svg-icons';
+import { map, Observable } from 'rxjs';
 import { InboxMailType, InboxSidebarType, InboxType } from '../../types/inbox';
 import { ApiService } from '../api-service.service';
-import { map, Observable, takeUntil } from 'rxjs';
-import { WithDestroyObservable } from '../../mixins/with-destroy-observable';
-import { ApiResponse } from '../../types/api.types';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -77,42 +74,6 @@ export class EmailService {
   public readonly actionsSignal = this._actionsSignal;
 
   constructor(private readonly apiService: ApiService) {}
-
-  // public starredMail(mail: InboxMailType): void {
-  //   mail.isStared = !mail.isStared;
-
-  //   this.apiService
-  //     .mailEdit(mail)
-  //     .pipe(takeUntil(this.destroy$))
-  //     .subscribe({
-  //       next: (response: ApiResponse<string, InboxMailType>) => {
-  //         this.getActions();
-  //       },
-  //       error: (error: HttpErrorResponse) => {
-  //         console.error('Error updating mail:', error);
-  //       },
-  //     });
-  // }
-
-  // public getActions(): void {
-  //   this.apiService
-  //     .getActionData()
-  //     .pipe(takeUntil(this.destroy$))
-  //     .subscribe({
-  //       next: (response: ApiResponse<string, InboxSidebarType[]>) => {
-  //         if (this.actions[0].content && response.result[0]?.content) {
-  //           response.result[0].content = response.result[0].content.map((item, idx) => ({
-  //             ...item,
-  //             icon: (this.actions[0].content as any[])[idx]?.icon ?? item.icon,
-  //           }));
-  //         }
-  //         this.actionsSignal.set(response.result);
-  //       },
-  //       error: (error: HttpErrorResponse) => {
-  //         console.error('Error fetching actions:', error);
-  //       },
-  //     });
-  // }
 
   public selectAction(action: InboxType): void {
     this.actionsSignal.update((actions) =>

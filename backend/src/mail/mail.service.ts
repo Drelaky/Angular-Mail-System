@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateMailDto } from './dto/create-mail.dto';
 import { UpdateMailDto } from './dto/update-mail.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Mail } from './entities/mail.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class MailService {

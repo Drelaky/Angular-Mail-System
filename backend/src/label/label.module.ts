@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { LabelService } from './label.service';
-import { LabelController } from './label.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { HttpModule } from '@nestjs/axios';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Label } from './entities/label.entity';
+import { LabelController } from './label.controller';
+import { LabelService } from './label.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Label]), HttpModule],

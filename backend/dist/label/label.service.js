@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LabelService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const label_entity_1 = require("./entities/label.entity");
 const typeorm_2 = require("typeorm");
+const label_entity_1 = require("./entities/label.entity");
 let LabelService = class LabelService {
     labeldb;
     constructor(labeldb) {
