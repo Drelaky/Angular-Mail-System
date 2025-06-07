@@ -28,7 +28,7 @@ let LabelService = class LabelService {
                 name: createLabelDto.name,
             },
         });
-        if (foundLabel) {
+        if (foundLabel && foundLabel.length > 0) {
             return 'van';
         }
         return this.labeldb.save(createLabelDto);

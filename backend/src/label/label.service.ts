@@ -19,7 +19,7 @@ export class LabelService {
       },
     });
 
-    if (foundLabel) {
+    if (foundLabel && foundLabel.length > 0) {
       return 'van';
     }
 

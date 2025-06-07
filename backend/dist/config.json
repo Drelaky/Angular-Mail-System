@@ -1,8 +1,9 @@
 {
-    "host": "servers.drelaky.hu",
+    "host": "192.168.100.41",
     "port": 3306,
-    "username": "system",
-    "password": "Welcome2k",
+    "username": "root",
+    "password": "",
     "database": "angular_mail_system",
+    "entities": [],
     "synchronize": true
 }

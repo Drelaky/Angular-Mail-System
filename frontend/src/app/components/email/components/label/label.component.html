@@ -1,5 +1,5 @@
 <div class="container">
-  @for (item of dummyData; track $index) {
+  @for (item of labels; track $index) {
   <mat-checkbox class="label-checkbox" [style.color]="item.color">{{ item.name }}</mat-checkbox>
   }
 </div>
@@ -10,7 +10,7 @@
 
 <dialog #labelDialog>
   <div class="dialog-container" [formGroup]="generateLabelForm">
-    <h1>Label generating</h1>
+    <h1>Label generation</h1>
     <div class="content-container">
       <mat-form-field appearance="outline">
         <mat-label>Label name</mat-label>
@@ -27,6 +27,8 @@
         formControlName="color"
         [style.background]="selectiveColor"
         [(colorPicker)]="selectiveColor"
+        [cpPresetColors]="presetColors"
+        [cpPresetLabel]="'Preset Colors'"
         (colorPickerChange)="changeColor($event)"
       />
 

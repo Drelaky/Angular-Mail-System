@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../types/api.types';
 import { InboxMailType, InboxSidebarType } from '../types/inbox';
+import { Label } from '../types/labels.types';
 
 @Injectable({
   providedIn: 'root',
@@ -48,5 +49,19 @@ export class ApiService {
 
   deleteMail(id: string): Observable<ApiResponse<string, { id: string }>> {
     return this.http.delete<ApiResponse<string, { id: string }>>(`mail/deleteMail/${id}`);
+  }
+
+  createLabel(formGroup: {
+    color: string;
+    name: string;
+  }): Observable<ApiResponse<string, { label: string }>> {
+    return this.http.post<ApiResponse<string, { label: string }>>('label/createLabels', {
+      color: formGroup.color,
+      name: formGroup.name,
+    });
+  }
+
+  getAllLabels(): Observable<ApiResponse<string, Label[]>> {
+    return this.http.get<ApiResponse<string, Label[]>>('label/getLabels');
   }
 }
