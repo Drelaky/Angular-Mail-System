@@ -10,7 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { InboxMailType, InboxSidebarType, InboxType } from '../../types/inbox';
 import { ApiService } from '../api-service.service';
-import { takeUntil } from 'rxjs';
+import { map, Observable, takeUntil } from 'rxjs';
 import { WithDestroyObservable } from '../../mixins/with-destroy-observable';
 import { ApiResponse } from '../../types/api.types';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -18,7 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-export class EmailService extends WithDestroyObservable(Object) {
+export class EmailService {
   actions: InboxSidebarType[] = [
     {
       title: 'Inbox',
@@ -73,46 +73,46 @@ export class EmailService extends WithDestroyObservable(Object) {
     },
   ];
 
-  actionsSignal = signal<InboxSidebarType[]>(this.actions);
-  constructor(private readonly apiService: ApiService) {
-    super();
-  }
+  private _actionsSignal = signal<InboxSidebarType[]>([]);
+  public readonly actionsSignal = this._actionsSignal;
 
-  public starredMail(mail: InboxMailType): void {
-    mail.isStared = !mail.isStared;
+  constructor(private readonly apiService: ApiService) {}
 
-    this.apiService
-      .mailEdit(mail)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response: ApiResponse<string, InboxMailType>) => {
-          this.getActions();
-        },
-        error: (error: HttpErrorResponse) => {
-          console.error('Error updating mail:', error);
-        },
-      });
-  }
+  // public starredMail(mail: InboxMailType): void {
+  //   mail.isStared = !mail.isStared;
 
-  public getActions(): void {
-    this.apiService
-      .getActionData()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response: ApiResponse<string, InboxSidebarType[]>) => {
-          if (this.actions[0].content && response.result[0]?.content) {
-            response.result[0].content = response.result[0].content.map((item, idx) => ({
-              ...item,
-              icon: (this.actions[0].content as any[])[idx]?.icon ?? item.icon,
-            }));
-          }
-          this.actionsSignal.set(response.result);
-        },
-        error: (error: HttpErrorResponse) => {
-          console.error('Error fetching actions:', error);
-        },
-      });
-  }
+  //   this.apiService
+  //     .mailEdit(mail)
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe({
+  //       next: (response: ApiResponse<string, InboxMailType>) => {
+  //         this.getActions();
+  //       },
+  //       error: (error: HttpErrorResponse) => {
+  //         console.error('Error updating mail:', error);
+  //       },
+  //     });
+  // }
+
+  // public getActions(): void {
+  //   this.apiService
+  //     .getActionData()
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe({
+  //       next: (response: ApiResponse<string, InboxSidebarType[]>) => {
+  //         if (this.actions[0].content && response.result[0]?.content) {
+  //           response.result[0].content = response.result[0].content.map((item, idx) => ({
+  //             ...item,
+  //             icon: (this.actions[0].content as any[])[idx]?.icon ?? item.icon,
+  //           }));
+  //         }
+  //         this.actionsSignal.set(response.result);
+  //       },
+  //       error: (error: HttpErrorResponse) => {
+  //         console.error('Error fetching actions:', error);
+  //       },
+  //     });
+  // }
 
   public selectAction(action: InboxType): void {
     this.actionsSignal.update((actions) =>
@@ -126,5 +126,32 @@ export class EmailService extends WithDestroyObservable(Object) {
           : section.content,
       }))
     );
+  }
+
+  getActions(): Observable<InboxSidebarType[]> {
+    return this.apiService.getActionData().pipe(
+      map((response) => {
+        if (this.actions[0].content && response.result[0]?.content) {
+          response.result[0].content = response.result[0].content.map((item, idx) => ({
+            ...item,
+            icon: (this.actions[0].content as InboxType[])[idx]?.icon ?? item.icon,
+          }));
+        }
+        this.actionsSignal.set(response.result);
+        return response.result;
+      })
+    );
+  }
+
+  refreshActions(): void {
+    this.getActions().subscribe({
+      next: (actions) => this._actionsSignal.set(actions),
+      error: (err) => console.error('Error refreshing actions', err),
+    });
+  }
+
+  starredMail(mail: InboxMailType): Observable<any> {
+    mail.isStared = !mail.isStared;
+    return this.apiService.mailEdit(mail);
   }
 }

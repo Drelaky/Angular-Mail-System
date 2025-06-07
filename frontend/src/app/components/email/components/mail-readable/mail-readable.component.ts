@@ -40,7 +40,6 @@ import { EmailService } from '../../../../services/email/email.service';
   styleUrl: './mail-readable.component.scss',
 })
 export class MailReadableComponent extends WithDestroyObservable(Object) implements OnInit {
-  //TODO TYPE FIXING
   actions: InboxSidebarType[] = [
     {
       title: 'Inbox',
@@ -130,12 +129,15 @@ export class MailReadableComponent extends WithDestroyObservable(Object) impleme
 
   ngOnInit(): void {
     this.actionsSignal = this.emailService.actionsSignal;
+    this.emailService.refreshActions();
     this.getOneMail(this.emailId);
-    this.emailService.getActions();
   }
 
   starredMail(mail: InboxMailType): void {
-    this.emailService.starredMail(mail);
+    this.emailService.starredMail(mail).subscribe({
+      next: () => this.emailService.refreshActions(),
+      error: (err) => console.error('Failed to star mail', err),
+    });
   }
 
   selectAction(action: InboxType): void {
