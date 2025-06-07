@@ -90,7 +90,7 @@
       background: #273142;
 
       .table {
-        grid-template-columns: auto 90px 150px 150px 1fr 90px;
+        grid-template-columns: auto 90px 150px auto 1fr 90px;
         text-align: center;
         align-items: center;
         background: #273142;
@@ -120,17 +120,22 @@
           }
         }
 
-        .badge-container {
-          display: inline-block;
-          padding: 5px 10px;
-          color: white;
-          font-weight: bold;
-          text-align: center;
+        .badge-flex-container {
+          display: flex;
+          flex-wrap: nowrap;
 
-          .badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+          .badge-container {
+            display: inline-block;
+            padding: 5px 10px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+
+            .badge {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
           }
         }
 
@@ -138,6 +143,7 @@
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          text-align: start;
 
           @media screen and (max-width: 1400px) {
             min-width: 200px;

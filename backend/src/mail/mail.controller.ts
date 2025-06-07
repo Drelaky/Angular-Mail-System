@@ -129,4 +129,16 @@ export class MailController {
   async deleteMail(@Param('id') id: string) {
     return await this.mailService.deleteMail(id);
   }
+
+  @Patch('updateMailLabels/:id')
+  async editLabel(
+    @Param('id') id: string,
+    @Body() updateLabelDto: CreateMailDto,
+  ) {
+    const updatedLabel = await this.mailService.updateMailLabel(
+      updateLabelDto,
+      id,
+    );
+    return updatedLabel;
+  }
 }

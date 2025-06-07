@@ -109,7 +109,7 @@ export class MailReadableComponent extends WithDestroyObservable(Object) impleme
     isRead: false,
     isStared: false,
     createdAt: new Date(),
-    badge: [],
+    labels: [],
     role: '',
   };
 

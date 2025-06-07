@@ -23,7 +23,7 @@
         </div>
         @if(mailData.name) {
         <div class="name">{{ mailData.name }}</div>
-        } @if(mailData.badge.length > 0 && mailData.badge) { @for (badge of mailData.badge; track
+        } @if(mailData.labels.length > 0 && mailData.labels) { @for (badge of mailData.labels; track
         $index) {
         <div class="badge-container">
           <div class="badge" [ngStyle]="{ 'background-color': badge.color }">

@@ -32,10 +32,7 @@ __decorate([
     __metadata("design:type", String)
 ], Label.prototype, "color", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)((type) => mail_entity_1.Mail, (mail) => mail.labels, {
-        eager: false,
-    }),
-    (0, typeorm_1.JoinTable)(),
+    (0, typeorm_1.ManyToMany)(() => mail_entity_1.Mail, (mail) => mail.labels),
     __metadata("design:type", Array)
 ], Label.prototype, "mails", void 0);
 exports.Label = Label = __decorate([

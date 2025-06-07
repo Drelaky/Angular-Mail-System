@@ -51,17 +51,23 @@
             ></fa-icon>
           </div>
           <div (click)="selectMail(message.id)">{{ message.name }}</div>
-          @if(message.badge) { @for (badge of message.badge; track $index) {
-          <div class="badge-container">
-            <div
-              class="badge"
-              (click)="selectMail(message.id)"
-              [ngStyle]="{ 'background-color': badge.color }"
-            >
-              {{ badge.name }}
+          @if(message.labels.length > 0) {
+          <div class="badge-flex-container">
+            @for (label of message.labels; track $index) {
+            <div class="badge-container">
+              <div
+                class="badge"
+                (click)="selectMail(message.id)"
+                [ngStyle]="{ 'background-color': label.color }"
+              >
+                {{ label.name }}
+              </div>
             </div>
+            }
           </div>
-          } }
+          } @else {
+          <div class="dummy-label"></div>
+          }
           <div class="content" (click)="selectMail(message.id)">
             {{ message.message }}
           </div>

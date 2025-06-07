@@ -8,9 +8,10 @@ import {
   faTriangleExclamation,
   faWarning,
 } from '@fortawesome/free-solid-svg-icons';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { InboxMailType, InboxSidebarType, InboxType } from '../../types/inbox';
 import { ApiService } from '../api-service.service';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -72,6 +73,12 @@ export class EmailService {
 
   private _actionsSignal = signal<InboxSidebarType[]>([]);
   public readonly actionsSignal = this._actionsSignal;
+
+  public readonly selectedMail$ = new BehaviorSubject<InboxMailType | null>(null);
+
+  get selectedMailObservable() {
+    return this.selectedMail$.asObservable();
+  }
 
   constructor(private readonly apiService: ApiService) {}
 

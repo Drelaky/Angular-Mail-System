@@ -10,9 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Mail = void 0;
+const label_entity_1 = require("../../label/entities/label.entity");
 const typeorm_1 = require("typeorm");
 const mailBadge_entity_1 = require("./mailBadge.entity");
-const label_entity_1 = require("../../label/entities/label.entity");
 let Mail = class Mail {
     id;
     name;
@@ -70,6 +70,7 @@ __decorate([
         eager: true,
         cascade: true,
     }),
+    (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], Mail.prototype, "labels", void 0);
 exports.Mail = Mail = __decorate([

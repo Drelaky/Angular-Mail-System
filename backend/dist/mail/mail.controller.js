@@ -107,6 +107,10 @@ let MailController = class MailController {
     async deleteMail(id) {
         return await this.mailService.deleteMail(id);
     }
+    async editLabel(id, updateLabelDto) {
+        const updatedLabel = await this.mailService.updateMailLabel(updateLabelDto, id);
+        return updatedLabel;
+    }
 };
 exports.MailController = MailController;
 __decorate([
@@ -156,6 +160,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], MailController.prototype, "deleteMail", null);
+__decorate([
+    (0, common_1.Patch)('updateMailLabels/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, create_mail_dto_1.CreateMailDto]),
+    __metadata("design:returntype", Promise)
+], MailController.prototype, "editLabel", null);
 exports.MailController = MailController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [mail_service_1.MailService])

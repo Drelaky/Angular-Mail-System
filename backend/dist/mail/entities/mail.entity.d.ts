@@ -1,5 +1,5 @@
-import { MailBadge } from './mailBadge.entity';
 import { Label } from '@app/label/entities/label.entity';
+import { MailBadge } from './mailBadge.entity';
 export declare class Mail {
     id: string;
     name: string;

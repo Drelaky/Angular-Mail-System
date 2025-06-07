@@ -17,10 +17,13 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const mail_entity_1 = require("./entities/mail.entity");
+const label_entity_1 = require("../label/entities/label.entity");
 let MailService = class MailService {
     mailDB;
-    constructor(mailDB) {
+    labeldb;
+    constructor(mailDB, labeldb) {
         this.mailDB = mailDB;
+        this.labeldb = labeldb;
     }
     saveEmail(createMailDto) {
         const mail = this.mailDB.create({
@@ -59,11 +62,36 @@ let MailService = class MailService {
         await this.mailDB.remove(mail);
         return `Mail with id ${id} deleted successfully`;
     }
+    async updateMailLabel(updateLabelDto, id) {
+        const foundMail = await this.mailDB.findOne({
+            where: { id: id },
+        });
+        if (!foundMail) {
+            return `Mail with id ${updateLabelDto.id} not found`;
+        }
+        let data = await this.generateSaveData(updateLabelDto, foundMail);
+        this.mailDB.save(data);
+        return 'Label updated successfully';
+    }
+    async generateSaveData(updateLabelDto, foundMail) {
+        const labelIds = updateLabelDto.labels?.map((label) => label.id) ?? [];
+        const labels = await this.labeldb.find({
+            where: { id: (0, typeorm_2.In)(labelIds) },
+            relations: ['mails'],
+        });
+        if (labels.length !== labelIds.length) {
+            throw new Error('One or more labels not found');
+        }
+        foundMail.labels = labels;
+        return foundMail;
+    }
 };
 exports.MailService = MailService;
 exports.MailService = MailService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(mail_entity_1.Mail)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(label_entity_1.Label)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], MailService);
 //# sourceMappingURL=mail.service.js.map
