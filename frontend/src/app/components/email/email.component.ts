@@ -71,12 +71,15 @@ export class EmailComponent extends WithDestroyObservable(Object) implements OnI
 
   ngOnInit(): void {
     this.actionsSignal = this.emailService.actionsSignal;
+    this.emailService.refreshActions();
     this.getMails();
-    this.emailService.getActions();
   }
 
   starredMail(mail: InboxMailType): void {
-    this.emailService.starredMail(mail);
+    this.emailService.starredMail(mail).subscribe({
+      next: () => this.emailService.refreshActions(),
+      error: (err) => console.error('Failed to star mail', err),
+    });
   }
 
   selectAction(action: InboxType): void {
