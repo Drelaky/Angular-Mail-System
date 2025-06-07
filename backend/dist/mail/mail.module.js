@@ -14,12 +14,13 @@ const mail_entity_1 = require("./entities/mail.entity");
 const mailBadge_entity_1 = require("./entities/mailBadge.entity");
 const mail_controller_1 = require("./mail.controller");
 const mail_service_1 = require("./mail.service");
+const label_entity_1 = require("../label/entities/label.entity");
 let MailModule = class MailModule {
 };
 exports.MailModule = MailModule;
 exports.MailModule = MailModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([mail_entity_1.Mail, mailBadge_entity_1.MailBadge]), axios_1.HttpModule],
+        imports: [typeorm_1.TypeOrmModule.forFeature([mail_entity_1.Mail, mailBadge_entity_1.MailBadge, label_entity_1.Label]), axios_1.HttpModule],
         controllers: [mail_controller_1.MailController],
         providers: [mail_service_1.MailService],
     })

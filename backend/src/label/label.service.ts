@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateLabelDto } from './dto/create-label.dto';
 import { Label } from './entities/label.entity';
+import { Mail } from '@app/mail/entities/mail.entity';
 
 @Injectable()
 export class LabelService {

@@ -1,6 +1,12 @@
 <div class="container">
-  @for (item of labels; track $index) {
-  <mat-checkbox class="label-checkbox" [style.color]="item.color">{{ item.name }}</mat-checkbox>
+  @for (label of labels; track $index) {
+  <mat-checkbox
+    class="label-checkbox"
+    [style.color]="label.color"
+    (click)="isSelected(label)"
+    [(ngModel)]="label.selected"
+    >{{ label.name }}</mat-checkbox
+  >
   }
 </div>
 <div class="create-new-label-container">

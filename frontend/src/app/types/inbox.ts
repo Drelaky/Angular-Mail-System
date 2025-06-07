@@ -8,7 +8,7 @@ export type InboxType = {
 };
 
 export type InboxMailType = {
-  badge: { name: string; color: string }[];
+  labels: { id: string; name: string; color: string; selected: boolean }[];
   createdAt: Date;
   email: string;
   id: string;

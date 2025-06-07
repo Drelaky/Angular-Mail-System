@@ -26,6 +26,7 @@ import { ApiResponse } from '../../types/api.types';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatRadioModule } from '@angular/material/radio';
 import { EmailService } from '../../services/email/email.service';
+import { SelectedLabels } from '../../types/labels.types';
 
 @Component({
   selector: 'app-email',
@@ -138,12 +139,11 @@ export class EmailComponent extends WithDestroyObservable(Object) implements OnI
   selectMailCheckbox(mail: InboxMailType): void {
     if (this.selectedMail && this.selectedMail.id === mail.id) {
       this.selectedMail = null;
-      console.log('Deselected Mail');
+      this.emailService.selectedMail$.next(null);
       return;
     }
 
     this.selectedMail = mail;
-
-    console.log('Selected Mail:', this.selectedMail);
+    this.emailService.selectedMail$.next(mail);
   }
 }

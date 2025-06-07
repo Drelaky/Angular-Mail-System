@@ -64,4 +64,14 @@ export class ApiService {
   getAllLabels(): Observable<ApiResponse<string, Label[]>> {
     return this.http.get<ApiResponse<string, Label[]>>('label/getLabels');
   }
+
+  updateMailLabels(
+    mailId: string,
+    labels: Label[]
+  ): Observable<ApiResponse<string, { id: string; labels: Label[] }>> {
+    return this.http.patch<ApiResponse<string, { id: string; labels: Label[] }>>(
+      `mail/updateMailLabels/${mailId}`,
+      { labels }
+    );
+  }
 }

@@ -1,12 +1,13 @@
+import { Label } from '@app/label/entities/label.entity';
 import {
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { MailBadge } from './mailBadge.entity';
-import { Label } from '@app/label/entities/label.entity';
 
 @Entity({ name: 'mail' })
 export class Mail {
@@ -44,5 +45,6 @@ export class Mail {
     eager: true,
     cascade: true,
   })
+  @JoinTable()
   labels?: Label[];
 }

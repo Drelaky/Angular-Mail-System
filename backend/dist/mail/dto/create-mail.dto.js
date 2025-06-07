@@ -6,6 +6,7 @@ class CreateMailDto {
     name;
     email;
     message;
+    labels;
 }
 exports.CreateMailDto = CreateMailDto;
 //# sourceMappingURL=create-mail.dto.js.map

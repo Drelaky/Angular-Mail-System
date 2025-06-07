@@ -1,11 +1,5 @@
 import { Mail } from '@app/mail/entities/mail.entity';
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'labels' })
 export class Label {
@@ -18,9 +12,6 @@ export class Label {
   @Column()
   color: string;
 
-  @ManyToMany((type) => Mail, (mail) => mail.labels, {
-    eager: false,
-  })
-  @JoinTable()
+  @ManyToMany(() => Mail, (mail) => mail.labels)
   mails: Mail[];
 }

@@ -1,4 +1,16 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  ElementRef,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -16,7 +28,10 @@ import { ColorPickerDirective } from 'ngx-color-picker';
 import { ApiService } from '../../../../services/api-service.service';
 import { WithDestroyObservable } from '../../../../mixins/with-destroy-observable';
 import { takeUntil } from 'rxjs';
-import { Label } from '../../../../types/labels.types';
+import { Label, SelectedLabels } from '../../../../types/labels.types';
+import { InboxMailType } from '../../../../types/inbox';
+import { EmailService } from '../../../../services/email/email.service';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-label',
@@ -36,12 +51,19 @@ import { Label } from '../../../../types/labels.types';
 })
 export class LabelComponent extends WithDestroyObservable(Object) implements OnInit {
   @ViewChild('labelDialog') labelDialog!: ElementRef<HTMLDialogElement>;
+  private readonly destroyRef = inject(DestroyRef);
 
-  constructor(private readonly apiService: ApiService) {
+  selectedMail: InboxMailType | null = null;
+
+  constructor(
+    private readonly apiService: ApiService,
+    private readonly emailService: EmailService
+  ) {
     super();
   }
 
   faPlus = faPlus;
+  selectedLabels: SelectedLabels[] = [];
   presetColors: string[] = [
     '#f44336',
     '#2196f3',
@@ -62,6 +84,20 @@ export class LabelComponent extends WithDestroyObservable(Object) implements OnI
   ngOnInit(): void {
     this.getAllLabels();
     this.generateLabelForm = this.generateForm();
+
+    this.emailService.selectedMail$.pipe(takeUntil(this.destroy$)).subscribe((mail) => {
+      this.selectedMail = mail;
+      if (mail && mail.labels) {
+        const selectedIds = mail.labels.map((label) => label.id);
+        this.selectedLabels = mail.labels;
+
+        this.labels.forEach((label) => {
+          label.selected = selectedIds.includes(label.id);
+        });
+      } else {
+        this.labels.forEach((label) => (label.selected = false));
+      }
+    });
   }
 
   generateForm(): FormGroup {
@@ -119,6 +155,55 @@ export class LabelComponent extends WithDestroyObservable(Object) implements OnI
         },
         error: (error) => {
           console.error('Error fetching labels:', error);
+        },
+      });
+  }
+
+  isSelected(label: Label) {
+    const foundLabel = this.selectedLabels.find((selectedLabel) => selectedLabel.id === label.id);
+
+    if (foundLabel) {
+      this.selectedLabels = this.selectedLabels.filter(
+        (selectedLabel) => selectedLabel.id !== label.id
+      );
+
+      if (this.selectedMail) {
+        this.selectedMail.labels = this.selectedLabels;
+      }
+
+      this.updateMailLabels();
+      return true;
+    }
+
+    this.selectedLabels.push({
+      id: label.id,
+      name: label.name,
+      color: label.color,
+      selected: true,
+    });
+
+    if (this.selectedMail) {
+      this.selectedMail.labels = this.selectedLabels;
+    }
+
+    this.updateMailLabels();
+
+    return true;
+  }
+
+  updateMailLabels(): void {
+    if (!this.selectedMail) {
+      console.warn('No mail selected to update.');
+      return;
+    }
+
+    this.apiService
+      .updateMailLabels(this.selectedMail.id, this.selectedLabels)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {},
+        error: (error) => {
+          console.error('Error updating labels:', error);
         },
       });
   }
