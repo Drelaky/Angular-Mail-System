@@ -105,7 +105,11 @@ export class MailService {
 
     switch (type.role) {
       case 'Inbox':
-        return this.mailDB.find();
+        return this.mailDB.find({
+          order: {
+            createdAt: 'DESC',
+          },
+        });
 
       case 'Draft':
         return this.foundEmailType(type.role);
@@ -131,6 +135,9 @@ export class MailService {
       where: {
         role: type,
       },
+      order: {
+        createdAt: 'DESC',
+      },
     });
   }
 
@@ -138,6 +145,9 @@ export class MailService {
     return await this.mailDB.find({
       where: {
         isStared: true,
+      },
+      order: {
+        createdAt: 'DESC',
       },
     });
   }

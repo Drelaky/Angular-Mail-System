@@ -91,7 +91,11 @@ let MailService = class MailService {
         }
         switch (type.role) {
             case 'Inbox':
-                return this.mailDB.find();
+                return this.mailDB.find({
+                    order: {
+                        createdAt: 'DESC',
+                    },
+                });
             case 'Draft':
                 return this.foundEmailType(type.role);
             case 'Sent':
@@ -111,12 +115,18 @@ let MailService = class MailService {
             where: {
                 role: type,
             },
+            order: {
+                createdAt: 'DESC',
+            },
         });
     }
     async foundAllStarredEmails() {
         return await this.mailDB.find({
             where: {
                 isStared: true,
+            },
+            order: {
+                createdAt: 'DESC',
             },
         });
     }
