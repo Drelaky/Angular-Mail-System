@@ -69,17 +69,17 @@ let MailController = class MailController {
                     },
                     {
                         title: 'Sent',
-                        count: mails.filter((mail) => mail.role === 'sent').length,
+                        count: mails.filter((mail) => mail.role === 'Sent').length,
                         active: false,
                     },
                     {
-                        title: 'Drafts',
-                        count: mails.filter((mail) => mail.role === 'draft').length,
+                        title: 'Draft',
+                        count: mails.filter((mail) => mail.role === 'Draft').length,
                         active: false,
                     },
                     {
                         title: 'Trash',
-                        count: mails.filter((mail) => mail.role === 'trash').length,
+                        count: mails.filter((mail) => mail.role === 'Trash').length,
                         active: false,
                     },
                 ],
@@ -110,6 +110,9 @@ let MailController = class MailController {
     async editLabel(id, updateLabelDto) {
         const updatedLabel = await this.mailService.updateMailLabel(updateLabelDto, id);
         return updatedLabel;
+    }
+    SelectedEmailType(type) {
+        return this.mailService.selectedAllTypeEmails(type);
     }
 };
 exports.MailController = MailController;
@@ -168,6 +171,13 @@ __decorate([
     __metadata("design:paramtypes", [String, create_mail_dto_1.CreateMailDto]),
     __metadata("design:returntype", Promise)
 ], MailController.prototype, "editLabel", null);
+__decorate([
+    (0, common_1.Post)('selected'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_mail_dto_1.CreateMailDto]),
+    __metadata("design:returntype", void 0)
+], MailController.prototype, "SelectedEmailType", null);
 exports.MailController = MailController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [mail_service_1.MailService])

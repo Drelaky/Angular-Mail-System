@@ -68,7 +68,7 @@ export class MailReadableComponent extends WithDestroyObservable(Object) impleme
         },
         {
           icon: faPen,
-          title: 'Drafts',
+          title: 'Draft',
           count: 0,
           active: false,
         },

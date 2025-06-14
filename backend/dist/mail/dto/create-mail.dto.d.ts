@@ -3,6 +3,7 @@ export declare class CreateMailDto {
     name: string;
     email: string;
     message: string;
+    role?: string;
     labels?: {
         id: string;
         name: string;

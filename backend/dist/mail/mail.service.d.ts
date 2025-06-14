@@ -14,4 +14,7 @@ export declare class MailService {
     deleteMail(id: string): Promise<string>;
     updateMailLabel(updateLabelDto: CreateMailDto, id: any): Promise<string>;
     generateSaveData(updateLabelDto: CreateMailDto, foundMail: Mail): Promise<Mail>;
+    selectedAllTypeEmails(type: CreateMailDto): Promise<Mail[] | undefined>;
+    foundEmailType(type: string): Promise<Mail[]>;
+    foundAllStarredEmails(): Promise<Mail[]>;
 }

@@ -21,4 +21,5 @@ export declare class MailController {
     }>;
     deleteMail(id: string): Promise<string>;
     editLabel(id: string, updateLabelDto: CreateMailDto): Promise<string>;
+    SelectedEmailType(type: CreateMailDto): Promise<import("./entities/mail.entity").Mail[] | undefined>;
 }

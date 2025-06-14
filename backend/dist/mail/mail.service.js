@@ -85,6 +85,41 @@ let MailService = class MailService {
         foundMail.labels = labels;
         return foundMail;
     }
+    async selectedAllTypeEmails(type) {
+        if (!type.role) {
+            throw new common_1.BadRequestException('Role is required');
+        }
+        switch (type.role) {
+            case 'Inbox':
+                return this.mailDB.find();
+            case 'Draft':
+                return this.foundEmailType(type.role);
+            case 'Sent':
+                return this.foundEmailType(type.role);
+            case 'Trash':
+                return this.foundEmailType(type.role);
+            case 'Important':
+                return this.foundEmailType(type.role);
+            case 'Spam':
+                return this.foundEmailType(type.role);
+            case 'Starred':
+                return this.foundAllStarredEmails();
+        }
+    }
+    async foundEmailType(type) {
+        return await this.mailDB.find({
+            where: {
+                role: type,
+            },
+        });
+    }
+    async foundAllStarredEmails() {
+        return await this.mailDB.find({
+            where: {
+                isStared: true,
+            },
+        });
+    }
 };
 exports.MailService = MailService;
 exports.MailService = MailService = __decorate([

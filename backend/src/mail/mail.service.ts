@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { CreateMailDto } from './dto/create-mail.dto';
@@ -96,5 +96,49 @@ export class MailService {
     foundMail.labels = labels;
 
     return foundMail;
+  }
+
+  async selectedAllTypeEmails(type: CreateMailDto) {
+    if (!type.role) {
+      throw new BadRequestException('Role is required');
+    }
+
+    switch (type.role) {
+      case 'Inbox':
+        return this.mailDB.find();
+
+      case 'Draft':
+        return this.foundEmailType(type.role);
+
+      case 'Sent':
+        return this.foundEmailType(type.role);
+
+      case 'Trash':
+        return this.foundEmailType(type.role);
+      case 'Important':
+        return this.foundEmailType(type.role);
+
+      case 'Spam':
+        return this.foundEmailType(type.role);
+
+      case 'Starred':
+        return this.foundAllStarredEmails();
+    }
+  }
+
+  async foundEmailType(type: string) {
+    return await this.mailDB.find({
+      where: {
+        role: type,
+      },
+    });
+  }
+
+  async foundAllStarredEmails() {
+    return await this.mailDB.find({
+      where: {
+        isStared: true,
+      },
+    });
   }
 }

@@ -80,17 +80,17 @@ export class MailController {
           },
           {
             title: 'Sent',
-            count: mails.filter((mail) => mail.role === 'sent').length,
+            count: mails.filter((mail) => mail.role === 'Sent').length,
             active: false,
           },
           {
-            title: 'Drafts',
-            count: mails.filter((mail) => mail.role === 'draft').length,
+            title: 'Draft',
+            count: mails.filter((mail) => mail.role === 'Draft').length,
             active: false,
           },
           {
             title: 'Trash',
-            count: mails.filter((mail) => mail.role === 'trash').length,
+            count: mails.filter((mail) => mail.role === 'Trash').length,
             active: false,
           },
         ],
@@ -140,5 +140,10 @@ export class MailController {
       id,
     );
     return updatedLabel;
+  }
+
+  @Post('selected')
+  SelectedEmailType(@Body() type: CreateMailDto) {
+    return this.mailService.selectedAllTypeEmails(type);
   }
 }

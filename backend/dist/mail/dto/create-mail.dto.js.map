@@ -1,1 +1,1 @@
-{"version":3,"file":"create-mail.dto.js","sourceRoot":"","sources":["../../../src/mail/dto/create-mail.dto.ts"],"names":[],"mappings":";;;AAAA,MAAa,aAAa;IACxB,EAAE,CAAU;IACZ,IAAI,CAAS;IACb,KAAK,CAAS;IACd,OAAO,CAAS;IAEhB,MAAM,CAKF;CACL;AAZD,sCAYC"}
+{"version":3,"file":"create-mail.dto.js","sourceRoot":"","sources":["../../../src/mail/dto/create-mail.dto.ts"],"names":[],"mappings":";;;AAAA,MAAa,aAAa;IACxB,EAAE,CAAU;IACZ,IAAI,CAAS;IACb,KAAK,CAAS;IACd,OAAO,CAAS;IAChB,IAAI,CAAU;IAEd,MAAM,CAKF;CACL;AAbD,sCAaC"}

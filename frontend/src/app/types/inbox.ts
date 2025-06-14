@@ -16,7 +16,7 @@ export type InboxMailType = {
   isStared: boolean;
   message: string;
   name: string;
-  role: string;
+  role: string | null;
   HTML?: string;
 };
 

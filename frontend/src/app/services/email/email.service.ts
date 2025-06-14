@@ -53,7 +53,7 @@ export class EmailService {
         },
         {
           icon: faPen,
-          title: 'Drafts',
+          title: 'Draft',
           count: 0,
           active: false,
         },
@@ -75,6 +75,7 @@ export class EmailService {
   public readonly actionsSignal = this._actionsSignal;
 
   public readonly selectedMail$ = new BehaviorSubject<InboxMailType | null>(null);
+  public readonly selectedTypeMails$ = new BehaviorSubject<InboxMailType[] | null>(null);
 
   get selectedMailObservable() {
     return this.selectedMail$.asObservable();

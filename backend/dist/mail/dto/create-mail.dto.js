@@ -6,6 +6,7 @@ class CreateMailDto {
     name;
     email;
     message;
+    role;
     labels;
 }
 exports.CreateMailDto = CreateMailDto;

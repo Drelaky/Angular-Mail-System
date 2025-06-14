@@ -74,4 +74,8 @@ export class ApiService {
       { labels }
     );
   }
+
+  getSelectedEmailType(role: string): Observable<ApiResponse<string, any[]>> {
+    return this.http.post<ApiResponse<string, any[]>>('mail/selected', { role });
+  }
 }
