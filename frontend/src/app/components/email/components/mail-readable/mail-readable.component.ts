@@ -1,6 +1,8 @@
 import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
-import { Component, OnInit, signal, WritableSignal } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit, WritableSignal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as freeReguarIcons from '@fortawesome/free-regular-svg-icons';
 import * as freeSolidIcons from '@fortawesome/free-solid-svg-icons';
@@ -15,27 +17,17 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { takeUntil } from 'rxjs';
 import { WithDestroyObservable } from '../../../../mixins/with-destroy-observable';
+import { SafePipe } from '../../../../pipes/safe.pipe';
 import { ApiService } from '../../../../services/api-service.service';
+import { EmailService } from '../../../../services/email/email.service';
+import { UtilsService } from '../../../../services/utils.service';
 import { ApiResponse } from '../../../../types/api.types';
 import { InboxMailType, InboxSidebarType, InboxType } from '../../../../types/inbox';
 import { LabelComponent } from '../label/label.component';
-import { HttpErrorResponse } from '@angular/common/http';
-import { SafePipe } from '../../../../pipes/safe.pipe';
-import { UtilsService } from '../../../../services/utils.service';
-import { MatButtonModule } from '@angular/material/button';
-import { EmailService } from '../../../../services/email/email.service';
 
 @Component({
   selector: 'app-mail-readable',
-  imports: [
-    LabelComponent,
-    FontAwesomeModule,
-    NgClass,
-    NgStyle,
-    SafePipe,
-    NgTemplateOutlet,
-    MatButtonModule,
-  ],
+  imports: [FontAwesomeModule, NgStyle, SafePipe, NgTemplateOutlet, MatButtonModule],
   templateUrl: './mail-readable.component.html',
   styleUrl: './mail-readable.component.scss',
 })

@@ -1,0 +1,54 @@
+:host {
+  display: block;
+
+  &.is-mobile {
+    width: 100%;
+  }
+}
+
+.action-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 286px;
+  background-color: #273142;
+  border-radius: 14px;
+
+  &.is-mobile {
+    width: 100%;
+    max-width: unset;
+  }
+
+  .title {
+    font-size: 20px;
+    margin: 20px;
+  }
+
+  .item-action {
+    min-width: 238px;
+    display: flex;
+    padding: 10px 15px;
+    margin: 10px;
+    justify-content: space-between;
+    border-radius: 10px;
+    color: #0089ff;
+
+    &.is-mobile {
+      min-width: unset;
+    }
+
+    .title {
+      font-size: 16px;
+      margin-inline-start: 10px;
+    }
+
+    &.active {
+      background-color: #0066ff2e;
+    }
+
+    &:hover {
+      background-color: #0066ff2e;
+      cursor: pointer;
+    }
+  }
+}

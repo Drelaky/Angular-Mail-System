@@ -160,6 +160,11 @@ export class LabelComponent extends WithDestroyObservable(Object) implements OnI
   }
 
   isSelected(label: Label) {
+    if (!this.selectedMail) {
+      console.warn('No mail selected to update.');
+      return;
+    }
+
     const foundLabel = this.selectedLabels.find((selectedLabel) => selectedLabel.id === label.id);
 
     if (foundLabel) {

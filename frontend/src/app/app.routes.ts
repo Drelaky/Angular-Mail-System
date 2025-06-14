@@ -22,10 +22,23 @@ export const routes: Routes = [
         path: 'email',
         loadComponent: () =>
           import('./components/email/email.component').then((m) => m.EmailComponent),
-      },
-      {
-        path: 'email/messages/:id',
-        component: MailReadableComponent,
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./components/email/components/email-list/email-list.component').then(
+                (m) => m.EmailListComponent
+              ),
+          },
+
+          {
+            path: ':id',
+            loadComponent: () =>
+              import('./components/email/components/mail-readable/mail-readable.component').then(
+                (m) => m.MailReadableComponent
+              ),
+          },
+        ],
       },
     ],
   },

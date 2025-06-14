@@ -1,20 +1,4 @@
 <div class="container">
-  <div class="action-container">
-    @for (sidebar of actionsSignal(); track $index) {
-    <div class="title">{{ sidebar.title }}</div>
-    @for (content of sidebar.content; track $index) { @if(typeof content === 'object') {
-    <div class="item-action" [ngClass]="{ active: content.active }" (click)="selectAction(content)">
-      <div>
-        <fa-icon [icon]="content.icon"></fa-icon>
-        <span class="title">{{ content.title }}</span>
-      </div>
-      <div class="counter">{{ content.count }}</div>
-    </div>
-    } }}
-
-    <app-label></app-label>
-  </div>
-
   <div class="email-detail">
     <div class="email-header">
       <div class="title">
